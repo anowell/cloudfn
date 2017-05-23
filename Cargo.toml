@@ -1,0 +1,20 @@
+[package]
+name = "cloudfn"
+version = "0.1.0"
+authors = ["Anthony Nowell <anowell@gmail.com>"]
+
+[dependencies]
+lazy_static = "0.2.8"
+error-chain = "0.8.1"
+serde = "1.0.0"
+serde_derive = "1.0.0"
+uuid = { version = "0.4", features = ["v4"] }
+image = { version = "0.13.0", optional = true }
+
+[dependencies.algorithmia]
+git = "https://github.com/anowell/algorithmia-rust"
+branch = "3.x"
+
+[features]
+image-processing = ["image"]
+default = ["image-processing"]
