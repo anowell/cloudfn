@@ -17,11 +17,11 @@ fn main() {
     So I close in saying that I might have had a tough break – but I have an awful lot to live for!
     "#;
 
-    let resp = Classifier4J::summarize(text).unwrap();
-    println!("Classifier4J: {}", resp.summary);
+    let resp = classifier4j::summarize(text).unwrap();
+    println!("Classifier4J: {}", resp);
 
-    let resp = SummarAi::summarize(text).unwrap();
+    let resp = summarai::summarize(text).unwrap();
     println!("Summarai: {}", resp.summary);
-    println!("Summarai keywords: {:?}", resp.extra.keywords);
+    println!("Summarai keywords: {:?}", resp.keywords);
 
 }
