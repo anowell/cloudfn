@@ -17,4 +17,5 @@ branch = "3.x"
 
 [features]
 image-processing = ["image"]
-default = ["image-processing"]
+nlp = []
+default = ["image-processing", "nlp"]

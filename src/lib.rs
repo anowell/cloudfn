@@ -17,6 +17,9 @@ use algorithmia::data::{DataDir, DataAcl};
 #[cfg(feature="image-processing")]
 pub mod image;
 
+#[cfg(feature="nlp")]
+pub mod nlp;
+
 pub mod error;
 
 lazy_static! {
