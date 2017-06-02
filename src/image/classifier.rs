@@ -37,8 +37,8 @@ pub trait ClassifierAlgo {
     type Extra = ();
     type Input: Serialize;
     type Output: DeserializeOwned;
+    const ALGO: &'static str;
 
-    fn algo() -> &'static str;
     fn make_input(&self, data_uri: &str) -> Self::Input;
     fn from_output(&self, output: Self::Output) -> Classification<Self::Extra>;
 }
@@ -65,7 +65,7 @@ impl <I: ImageInterop> Classifier for I {
 
 
 fn tag<C: ClassifierAlgo>(classifier_algo: &C, data_uri: &str) -> Result<Classification<C::Extra>> {
-        let resp = CLIENT.algo(C::algo())
+        let resp = CLIENT.algo(C::ALGO)
             .pipe(&classifier_algo.make_input(data_uri))?
             .decode::<C::Output>()?;
         Ok(classifier_algo.from_output(resp))
@@ -90,7 +90,8 @@ pub mod classifiers {
         type Extra = ();
         type Input = String;
         type Output = InceptionNetOutput;
-        fn algo() -> &'static str { "deeplearning/InceptionNet/1.0" }
+        const ALGO: &'static str = "deeplearning/InceptionNet/1.0";
+
         fn make_input(&self, data_uri: &str) -> Self::Input { data_uri.to_owned() }
         fn from_output(&self, output: Self::Output) -> Classification<Self::Extra> {
             Classification { tags: output.tags, extra: () }
@@ -114,7 +115,8 @@ pub mod classifiers {
         type Extra = ();
         type Input = ImageWrapper;
         type Output = DeepFaceOutput;
-        fn algo() -> &'static str { "deeplearning/DeepFaceRecognition/0.1" }
+        const ALGO: &'static str = "deeplearning/DeepFaceRecognition/0.1";
+
         fn make_input(&self, data_uri: &str) -> Self::Input {
             ImageWrapper{ image: data_uri.to_owned() }
         }
@@ -152,7 +154,8 @@ pub mod classifiers {
         type Extra = ();
         type Input = String;
         type Output = SubredditOutput;
-        fn algo() -> &'static str { "deeplearning/SubredditClassifier/0.1" }
+        const ALGO: &'static str = "deeplearning/SubredditClassifier/0.1";
+
         fn make_input(&self, data_uri: &str) -> Self::Input {
             data_uri.to_owned()
         }
@@ -192,7 +195,8 @@ pub mod classifiers {
         type Extra = ();
         type Input = ImageWrapper;
         type Output = PlacesOutput;
-        fn algo() -> &'static str { "deeplearning/Places365Classifier/0.1" }
+        const ALGO: &'static str = "deeplearning/Places365Classifier/0.1";
+
         fn make_input(&self, data_uri: &str) -> Self::Input {
             ImageWrapper{ image: data_uri.to_owned() }
         }
@@ -239,7 +243,8 @@ pub mod classifiers {
         type Extra = ();
         type Input = RealEstateInput;
         type Output = RealEstateOutput;
-        fn algo() -> &'static str { "deeplearning/RealEstateClassifier/0.2" }
+        const ALGO: &'static str = "deeplearning/RealEstateClassifier/0.2";
+
         fn make_input(&self, data_uri: &str) -> Self::Input {
             RealEstateInput{
                 image: data_uri.to_owned(),
@@ -301,7 +306,8 @@ pub mod classifiers {
         type Extra = IllustrationExtra;
         type Input = IllustrationInput;
         type Output = IllustrationOutput;
-        fn algo() -> &'static str { "deeplearning/IllustrationTagger/0.2" }
+        const ALGO: &'static str = "deeplearning/IllustrationTagger/0.2";
+
         fn make_input(&self, data_uri: &str) -> Self::Input {
             let tags = if self.whitelist.is_empty() {
                 None
