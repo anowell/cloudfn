@@ -1,5 +1,4 @@
 #![feature(associated_type_defaults)]
-#![feature(associated_consts)]
 
 extern crate algorithmia;
 extern crate uuid;
